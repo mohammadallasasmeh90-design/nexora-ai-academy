@@ -204,8 +204,10 @@ function vitePluginStorageProxy(): Plugin {
 }
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+const isGithubPagesBuild = process.env.GITHUB_ACTIONS === "true";
 
 export default defineConfig({
+  base: isGithubPagesBuild ? "/nexora-ai-academy/" : "/",
   plugins,
   resolve: {
     alias: {

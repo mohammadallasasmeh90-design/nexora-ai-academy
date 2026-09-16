@@ -163,7 +163,7 @@ export default function Home() {
           <div className="visual-orbit orbit-a" /><div className="visual-orbit orbit-b" />
           <div className="visual-card">
             <div className="visual-topline"><span><i /> النظام متصل</span><span>LAB / 01</span></div>
-            <img src="/manus-storage/nexora-orbit_b2245a86.png" alt="كرة عصبية مضيئة تمثل الذكاء الاصطناعي" />
+            <img src="/nexora-orbit.png" alt="كرة عصبية مضيئة تمثل الذكاء الاصطناعي" />
             <div className="visual-caption"><span>NEURAL<br />INTELLIGENCE</span><span className="caption-code">NXR<br />.AI_01</span></div>
           </div>
           <div className="floating-chip chip-top"><span className="chip-icon"><Database size={15} /></span><div><b>تطبيقات حقيقية</b><small>لا نظرية فقط</small></div></div>
