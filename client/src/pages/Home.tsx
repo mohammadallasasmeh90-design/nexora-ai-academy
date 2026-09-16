@@ -83,10 +83,24 @@ const tracks = [
   { name: "AI Leader", arabic: "قائد التحول", icon: BriefcaseBusiness, color: "orange" },
 ];
 
+const specialties = [
+  { title: "الذكاء الاصطناعي التوليدي", english: "Generative AI", icon: Sparkles, color: "cyan" },
+  { title: "هندسة تعلم الآلة", english: "Machine Learning", icon: Cpu, color: "violet" },
+  { title: "علم البيانات والتحليلات", english: "Data Science", icon: Database, color: "orange" },
+  { title: "الرؤية الحاسوبية", english: "Computer Vision", icon: Layers3, color: "cyan" },
+  { title: "معالجة اللغة الطبيعية", english: "NLP", icon: Globe2, color: "violet" },
+  { title: "الوكلاء والأنظمة الذاتية", english: "AI Agents", icon: Command, color: "orange" },
+  { title: "الروبوتات والأنظمة الذكية", english: "Robotics", icon: Rocket, color: "cyan" },
+  { title: "أخلاقيات وحوكمة الذكاء الاصطناعي", english: "AI Ethics & Governance", icon: Check, color: "violet" },
+];
+
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCourse, setActiveCourse] = useState(1);
   const [email, setEmail] = useState("");
+  const [studentName, setStudentName] = useState("");
+  const [studentPhone, setStudentPhone] = useState("");
+  const [selectedSpecialty, setSelectedSpecialty] = useState("الذكاء الاصطناعي التوليدي");
   const [submitted, setSubmitted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -113,9 +127,11 @@ export default function Home() {
 
   const submitEmail = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!email.trim()) return;
+    if (!studentName.trim() || !studentPhone.trim() || !email.trim()) return;
     setSubmitted(true);
-    setEmail("");
+    const message = `مرحباً، أرغب بالتسجيل في تخصص ${selectedSpecialty}. الاسم: ${studentName}، الهاتف: ${studentPhone}، البريد: ${email}`;
+    window.open(`https://wa.me/962790141918?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    setStudentName(""); setStudentPhone(""); setEmail("");
     window.setTimeout(() => setSubmitted(false), 4200);
   };
 
@@ -135,12 +151,13 @@ export default function Home() {
             <button onClick={() => scrollTo("programs")}>البرامج</button>
             <button onClick={() => scrollTo("method")}>منهجنا</button>
             <button onClick={() => scrollTo("tracks")}>المسارات</button>
+            <button onClick={() => scrollTo("specialties")}>التخصصات</button>
             <button onClick={() => scrollTo("stories")}>قصص الخريجين</button>
             <button className="mobile-close" onClick={() => setMenuOpen(false)}><X size={20} /></button>
           </nav>
           <div className="nav-actions">
             <button className="login-link" onClick={() => scrollTo("join")}>دخول</button>
-            <button className="nav-cta" onClick={() => scrollTo("join")}>ابدأ رحلتك <ArrowUpLeft size={16} /></button>
+            <a className="nav-phone" href="tel:+962790141918">0790141918</a><button className="nav-cta" onClick={() => scrollTo("join")}>سجّل الآن <ArrowUpLeft size={16} /></button>
             <button className="menu-toggle" onClick={() => setMenuOpen((value) => !value)} aria-label="فتح القائمة">{menuOpen ? <X size={21} /> : <Menu size={21} />}</button>
           </div>
         </div>
@@ -156,7 +173,7 @@ export default function Home() {
             <button className="primary-button" onClick={() => scrollTo("join")}>اكتشف المسارات <ArrowUpLeft size={18} /></button>
             <button className="play-link" onClick={() => scrollTo("method")}><span className="play-button"><Play size={13} fill="currentColor" /></span> شاهد كيف نتعلم</button>
           </div>
-          <div className="hero-trust"><div className="avatar-stack"><span>م</span><span>س</span><span>ر</span><span>+</span></div><div><b>+2,400</b><small>صانعاً بدأوا من هنا</small></div></div>
+          <div className="hero-trust"><div className="avatar-stack"><span>م</span><span>س</span><span>ر</span><span>+</span></div><div><b>+2,400</b><small>صانعاً بدأوا من هنا</small></div><a className="phone-pill" href="tel:+962790141918"><span>اتصل بنا</span><b>0790141918</b></a></div>
         </div>
 
         <div className="hero-visual reveal reveal-left">
@@ -194,14 +211,19 @@ export default function Home() {
         <div className="tracks-list">{tracks.map((track, index) => { const Icon = track.icon; return <button className={`track-row reveal ${track.color}`} key={track.name} style={{ animationDelay: `${index * 90}ms` }} onClick={() => scrollTo("join")}><span className="track-no">0{index + 1}</span><Icon size={25} strokeWidth={1.35} /><span className="track-name"><b>{track.arabic}</b><small>{track.name}</small></span><ArrowUpLeft className="track-arrow" size={23} /></button>; })}</div>
       </section>
 
+      <section id="specialties" className="specialties-section section-wrap">
+        <div className="specialties-heading reveal"><div className="section-kicker">مكتبة التخصصات <span>/ 08 مجالات</span></div><h2>اختر مجالك.<br /><span>ابنِ مستقبلك.</span></h2><p>مسارات واضحة تبدأ من الأساسيات وتوصلك إلى تطبيقات احترافية في أكثر مجالات الذكاء الاصطناعي طلباً.</p></div>
+        <div className="specialties-grid">{specialties.map((specialty, index) => { const Icon = specialty.icon; return <button className={`specialty-card reveal ${specialty.color}`} key={specialty.title} style={{ animationDelay: `${index * 45}ms` }} onClick={() => { setSelectedSpecialty(specialty.title); scrollTo("join"); }}><span className="specialty-index">0{index + 1}</span><span className="specialty-icon"><Icon size={20} /></span><span className="specialty-copy"><b>{specialty.title}</b><small>{specialty.english}</small></span><ArrowUpLeft className="specialty-arrow" size={18} /></button>; })}</div>
+      </section>
+
       <section id="stories" className="story-section section-wrap">
         <div className="story-card reveal"><div className="quote-mark"><Quote size={45} /></div><p>كنت أعتقد أن الذكاء الاصطناعي للخبراء فقط. بعد 8 أسابيع في NEXORA، أطلقت أول أداة SaaS لي وبدأت أستقبل عملاء من خارج المنطقة.</p><div className="story-person"><span className="person-avatar">ن</span><span><b>نورا العتيبي</b><small>خريجة دفعة 2025 · Product Builder</small></span></div><div className="story-pagination"><span className="active" /><span /><span /><span /></div></div>
         <div className="story-side reveal reveal-left"><div className="section-kicker">أصوات من المستقبل <span>/ 02</span></div><h2>النتيجة<br /><span>تتحدث.</span></h2><p>أكثر من 92% من خريجينا يطبقون ما تعلموه خلال أول 30 يوماً.</p><button className="text-button" onClick={() => scrollTo("join")}>شاهد كل القصص <ArrowUpLeft size={17} /></button></div>
       </section>
 
-      <section id="join" className="join-section section-wrap reveal"><div className="join-grid"><div><div className="section-kicker">خطوتك التالية <span>/ 01</span></div><h2>أنت أقرب<br />مما <span>تتخيل.</span></h2><p>اترك بريدك، وسنرسل لك دليل البداية المجاني وتفاصيل الدفعة القادمة.</p></div><form className="join-form" onSubmit={submitEmail}><label htmlFor="email">البريد الإلكتروني</label><div className="input-wrap"><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" /><button type="submit" aria-label="إرسال البريد"><ArrowUpLeft size={21} /></button></div><small><Check size={14} /> لا رسائل مزعجة. وعد.</small>{submitted && <div className="success-message"><Sparkles size={16} /> تم تسجيلك — تحقق من بريدك قريباً.</div>}</form></div><div className="join-bottom"><span>NXR / 2026</span><span>بُني بشغف في المنطقة العربية</span><span>01 — 04</span></div></section>
+      <section id="join" className="join-section section-wrap reveal"><div className="join-grid"><div><div className="section-kicker">تسجيل سريع <span>/ أقل من دقيقة</span></div><h2>خطوتك الأولى<br /><span>تبدأ هنا.</span></h2><p>أرسل بياناتك الأساسية، وسيتواصل معك فريق الأكاديمية عبر واتساب لتأكيد المسار والدفعة المناسبة.</p><a className="direct-call" href="tel:+962790141918"><span>مساعدة مباشرة</span><b>0790141918</b><ArrowUpLeft size={17} /></a></div><form className="join-form" onSubmit={submitEmail}><label htmlFor="student-name">سجّل اهتمامك الآن</label><div className="form-grid"><input id="student-name" type="text" required value={studentName} onChange={(event) => setStudentName(event.target.value)} placeholder="الاسم الكامل" /><input id="student-phone" type="tel" required value={studentPhone} onChange={(event) => setStudentPhone(event.target.value)} placeholder="رقم الهاتف" /></div><select value={selectedSpecialty} onChange={(event) => setSelectedSpecialty(event.target.value)} aria-label="اختر التخصص">{specialties.map((specialty) => <option value={specialty.title} key={specialty.title}>{specialty.title}</option>)}</select><div className="input-wrap"><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="البريد الإلكتروني" /><button type="submit" aria-label="إرسال التسجيل عبر واتساب"><ArrowUpLeft size={21} /></button></div><small><Check size={14} /> سيتم تحويلك إلى واتساب لإكمال التسجيل.</small>{submitted && <div className="success-message"><Sparkles size={16} /> تم تجهيز طلبك — افتح واتساب لإرساله.</div>}</form></div><div className="join-bottom"><span>NXR / 2026</span><span>بُني بشغف في المنطقة العربية</span><span>01 — 04</span></div></section>
 
-      <footer className="footer section-wrap"><div className="footer-brand"><a className="brand" href="#top" onClick={() => scrollTo("top")}><span className="brand-mark"><Sparkles size={17} /></span><span><b>NEXORA</b><small>AI ACADEMY</small></span></a><p>نصنع العقول التي ستصنع الغد.</p></div><div className="footer-links"><div><b>استكشف</b><button onClick={() => scrollTo("programs")}>البرامج</button><button onClick={() => scrollTo("tracks")}>المسارات</button></div><div><b>تواصل</b><a href="mailto:hello@nexora.ai">hello@nexora.ai</a><a href="#join" onClick={() => scrollTo("join")}>انضم للقائمة</a></div></div><div className="social-links"><a href="#top" aria-label="LinkedIn"><Linkedin size={17} /></a><a href="#top" aria-label="Instagram"><Instagram size={17} /></a><a href="mailto:hello@nexora.ai" aria-label="Email"><Globe2 size={17} /></a></div><div className="footer-end"><span>© 2026 NEXORA AI Academy</span><span>صُمم للمستقبل، بالعربية.</span></div></footer>
+      <footer className="footer section-wrap"><div className="footer-brand"><a className="brand" href="#top" onClick={() => scrollTo("top")}><span className="brand-mark"><Sparkles size={17} /></span><span><b>NEXORA</b><small>AI ACADEMY</small></span></a><p>نصنع العقول التي ستصنع الغد.</p><a className="footer-phone" href="tel:+962790141918"><span>خط التسجيل</span><b>0790141918</b></a></div><div className="footer-links"><div><b>خريطة الموقع</b><button onClick={() => scrollTo("programs")}>البرامج</button><button onClick={() => scrollTo("tracks")}>المسارات</button><button onClick={() => scrollTo("specialties")}>التخصصات</button><button onClick={() => scrollTo("stories")}>قصص الخريجين</button></div><div><b>ابدأ بسهولة</b><button onClick={() => scrollTo("join")}>سجّل الآن</button><a href="tel:+962790141918">اتصل بنا</a><a href="https://wa.me/962790141918" target="_blank" rel="noreferrer">واتساب</a></div></div><div className="social-links"><a href="#top" aria-label="LinkedIn"><Linkedin size={17} /></a><a href="#top" aria-label="Instagram"><Instagram size={17} /></a><a href="mailto:hello@nexora.ai" aria-label="Email"><Globe2 size={17} /></a></div><div className="footer-end"><span>© 2026 NEXORA AI Academy</span><span>صُمم للمستقبل، بالعربية.</span></div></footer>
     </main>
   );
 }
